@@ -1,0 +1,31 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnlyMomSon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>OnlyMomSon</header>
+
+<nav>
+  <a href="#">Home</a>
+  <a href="#">Gallery</a>
+  <a href="#">Contact</a>
+</nav>
+
+<div class="gallery" id="gallery"></div>
+
+<div id="modal" class="modal" onclick="closeModal()">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <span class="prev" onclick="prevImage(event)">&#10094;</span>
+  <img class="modal-content" id="modalImage" />
+  <span class="next" onclick="nextImage(event)">&#10095;</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
