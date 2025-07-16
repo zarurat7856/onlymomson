@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnlyMomSon - Stories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --header-font-size: 2.2rem;
+      --nav-font-size: 1rem;
+      --title-font-size: 1.3rem;
+      --desc-font-size: 0.95rem;
+      --modal-font-size: 1.1rem;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #121212;
+      color: #eee;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color: #fff;
+      padding: 30px;
+      font-size: var(--header-font-size);
+      font-weight: 600;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    nav {
+      background-color: #1e1e1e;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 10px;
+      font-size: var(--nav-font-size);
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.3s, color 0.3s;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: #ff7eb3;
+      color: #121212;
+    }
+
+    .story-container {
+      width: 100%;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      box-sizing: border-box;
+    }
+
+    .story-card {
+      background: #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .story-card:hover {
+      transform: scale(1.03) translateY(-5px);
+      box-shadow: 0 12px 24px rgba(255, 126, 179, 0.2);
+    }
+
+    .story-title {
+      font-size: var(--title-font-size);
+      font-weight: 600;
+      color: #ff7eb3;
+      margin-bottom: 10px;
+    }
+
+    .story-description {
+      font-size: var(--desc-font-size);
+      color: #bbb;
+      line-height: 1.4;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #121212;
+      color: #f2f2f2;
+      padding: 60px 20px 40px;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      max-width: 900px;
+      margin: auto;
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 30px;
+      line-height: 1.7;
+      font-size: var(--modal-font-size);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: #ff758c;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-font-size: 1.8rem;
+        --nav-font-size: 0.95rem;
+        --title-font-size: 1.2rem;
+        --desc-font-size: 0.9rem;
+        --modal-font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --header-font-size: 1.5rem;
+        --nav-font-size: 0.9rem;
+        --title-font-size: 1rem;
+        --desc-font-size: 0.85rem;
+        --modal-font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>OnlyMomSon</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="image.html">Images</a>
+  <a href="video.html">Videos</a>
+  <a href="story.html">Story</a>
+  <a href="live.html">Live</a>
+</nav>
+
+<div class="story-container" id="storyContainer"></div>
+
+<div id="modal" class="modal">
+  <div class="modal-close" onclick="closeModal()">&times;</div>
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+  const stories = [
+    {
+      title: "Stepmom’s Secret Desires",
+      description: "What started as a late-night movie turned into something far more intimate...",
+      fullStory: `It was a quiet Saturday night when she walked in wearing just a loose t-shirt... The room dimly lit, her silhouette was all I could see. I tried to ignore the urge but her touch lingered longer than usual...`
+    },
+    {
+      title: "Caught in the Kitchen",
+      description: "She said she was only looking for a midnight snack, but what she wanted was more than food...",
+      fullStory: `I opened the fridge and there she was, standing behind me. “You hungry too?” she whispered, pressing against me...`
+    },
+    {
+      title: "Late Night Confessions",
+      description: "In the stillness of the night, secrets came to light. And boundaries blurred...",
+      fullStory: `We sat on the porch, sipping wine. The silence between us wasn’t awkward — it was electric. She looked into my eyes and said, “I need to tell you something I’ve never told anyone…”`
+    }
+  ];
+
+  function renderStories() {
+    const container = document.getElementById("storyContainer");
+    container.innerHTML = stories.map((story, index) => `
+      <div class="story-card" onclick="openStory(${index})">
+        <div class="story-title">${story.title}</div>
+        <div class="story-description">${story.description}</div>
+      </div>
+    `).join('');
+  }
+
+  function openStory(index) {
+    const modal = document.getElementById("modal");
+    const content = document.getElementById("modalContent");
+    content.innerHTML = `
+      <h2 style="color:#ff7eb3;">${stories[index].title}</h2>
+      <p>${stories[index].fullStory}</p>
+    `;
+    modal.style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+
+  renderStories();
+</script>
+
+</body>
+</html>
